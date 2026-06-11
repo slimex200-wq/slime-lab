@@ -100,7 +100,26 @@ export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
     shock(phys, BASE, x, y, heartC.s * 3.0, shockRng);
     opts.onBeat?.();
   }
+  /** 스크롤 진행도: 히어로 위 1 → 인덱스 진입 0. 심장/콜아웃/레일이 흐려지며 가라앉음 */
+  let lastFade = -1;
+  function heroFade(): number {
+    return Math.max(0, 1 - scrollY / (innerHeight * 0.7));
+  }
+  function applyFade(fade: number) {
+    if (Math.abs(fade - lastFade) < 0.01) return;
+    lastFade = fade;
+    const op = String(0.10 + 0.90 * fade);
+    glCanvas!.style.opacity = op;
+    glCanvas!.style.filter = fade < 0.99 ? `blur(${((1 - fade) * 5).toFixed(1)}px)` : '';
+    annoCanvas!.style.opacity = op;
+    const vis = fade < 0.04 ? 'hidden' : '';
+    for (const c of callouts) { c.el.style.opacity = String(fade); c.el.style.visibility = vis; }
+    const railEl = q<HTMLElement>('#rail');
+    if (railEl) { railEl.style.opacity = String(fade); railEl.style.visibility = vis; }
+  }
+
   function onDown(e: PointerEvent) {
+    if (heroFade() < 0.5) return; // 인덱스 영역에선 심장 비활성
     if (Math.hypot(e.clientX - heartC.x, e.clientY - heartC.y) < heartC.s * 2.2) {
       triggerShock(e.clientX, e.clientY);
     }
@@ -155,8 +174,11 @@ export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
 
     if (bpmEl) bpmEl.textContent = `${Math.round(bpmNow)} BPM`;
     if (ecg) { ecg.push(beat + heart.thump * 0.8, dt); ecg.draw(); }
-    overlay.draw(dt, { cs, sn, sc, cx: heartC.x, cy: heartC.y, introE }, true);
-    const pokeActive = !coarse && Math.hypot(mouse.x - heartC.x, mouse.y - heartC.y) < heartC.s * 2.0;
+    const fade = heroFade();
+    applyFade(fade);
+    overlay.draw(dt, { cs, sn, sc, cx: heartC.x, cy: heartC.y, introE }, fade > 0.5);
+    const pokeActive =
+      !coarse && fade > 0.5 && Math.hypot(mouse.x - heartC.x, mouse.y - heartC.y) < heartC.s * 2.0;
     cursor?.step(dt, mouse, pokeActive);
 
     if (!opts.reducedMotion) raf = requestAnimationFrame(frame);
