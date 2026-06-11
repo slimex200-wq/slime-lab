@@ -43,3 +43,12 @@ npx wrangler pages deploy dist --project-name slime-lab   # 배포 (수동)
 - GITHUB_TOKEN 미설정 동안 private 레포는 `errors[]` + `auth:"degraded"` → UI "PARTIAL" 표기
 - Lighthouse(모바일 스로틀): perf 90 — LCP 3.3s는 엔트런스 reveal 연출, M3 폴리시 대상
 - 도메인 미정 (설계서 오픈 아이템 1)
+
+## M3 완료 (2026-06-12)
+
+- THE DIG 지층 시추(자연 스크롤, reduced-motion 폴백) + 화석 카드 → 부검 페이지 링크
+- 터미널 이스터에그 (` 키): help/ls/status(라이브 vitals 연동)/autopsy/uptime — 데스크톱 전용
+- 사운드 토글 (기본 OFF, 박동/쇼크 thump)
+- OG: 빌드 시 히어로 캡처(배포 시점 BPM 반영) + 메타 태그. 라이브 동적 OG(Satori Worker)는 M4 전 검토로 이연
+- Worker 핸들러 테스트 4종 (waitUntil 캡처) — 총 36 테스트
+- Lighthouse: perf 89 / a11y·BP·SEO 100. LCP 3.5s는 엔트런스 reveal 연출 비용 — 추가 단축은 연출 트레이드오프 결정 필요
