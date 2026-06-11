@@ -11,6 +11,11 @@ const { title = 'SLIME LAB', description = 'An independent product lab with a he
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL('/og.png', Astro.site ?? 'https://slime-lab-bxb.pages.dev')} />
+    <meta name="twitter:card" content="summary_large_image" />
     <ClientRouter />
   </head>
   <body>
