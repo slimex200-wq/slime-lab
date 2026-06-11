@@ -42,7 +42,7 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
     <div class="headline">
       <div class="kicker reveal" style=" animation-delay:.15s">/// LAB—000 — THE HEART OF THE LAB · {specimens.length} EXPERIMENTS WIRED IN</div>
       <h1 id="h1">
-        <span class="sr-only">Sixteen experiments. One heartbeat.</span>
+        <span class="sr-only">Fourteen experiments. One heartbeat.</span>
       </h1>
       <p class="reveal" style="animation-delay:.55s">
         30,000 cells. One organism. Every commit feeds it, every deploy makes it beat harder.
@@ -187,7 +187,7 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
     /* 헤드라인 글자 스태거 */
     const h1 = document.getElementById('h1')!;
     const parts: { t?: string; em?: boolean; br?: boolean }[] = [
-      { t: 'Sixteen experiments.' }, { br: true },
+      { t: 'Fourteen experiments.' }, { br: true },
       { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
     ];
     let delay = 300;

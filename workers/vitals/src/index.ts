@@ -19,12 +19,10 @@ const REPO_MAP: RepoMapEntry[] = [
   { slug: 'orido', repo: 'slimex200-wq/orido' },
   { slug: 'receipt-anything', repo: 'slimex200-wq/receipt-anything' },
   { slug: 'flatsnap', repo: 'slimex200-wq/flatsnap' },
-  { slug: 'insane-search', repo: null },
   { slug: 'diffwatch', repo: 'slimex200-wq/diffwatch', flatline: true },
   { slug: 'searchmachine', repo: 'slimex200-wq/searchmachine', flatline: true },
   { slug: 'youtube-shorts-music', repo: 'slimex200-wq/youtube-my-library' },
   { slug: 'ai-threads', repo: 'slimex200-wq/ai-threads' },
-  { slug: 'mailcal', repo: null },
 ];
 
 function githubFetcher(token: string | undefined): RepoFetcher {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T16:15:29.402Z",
+  "generatedAt": "2026-06-11T16:37:17.959Z",
   "specimens": {
     "weeple": {
       "weeklyCommits": 14,
@@ -41,10 +41,6 @@
       "weeklyCommits": 1,
       "lastShipDays": 12
     },
-    "insane-search": {
-      "weeklyCommits": 3,
-      "lastShipDays": 7
-    },
     "diffwatch": {
       "weeklyCommits": 0,
       "lastShipDays": 67
@@ -60,10 +56,6 @@
     "ai-threads": {
       "weeklyCommits": 0,
       "lastShipDays": 9
-    },
-    "mailcal": {
-      "weeklyCommits": 0,
-      "lastShipDays": 999
     }
   }
 }
