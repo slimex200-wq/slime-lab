@@ -52,6 +52,11 @@ const dead = d.status === 'archived' || d.status === 'frozen';
   import { fetchLive, applyVitals } from '../../lib/vitals-client';
   import { getVitals } from '../../lib/vitals';
   import { VITALS_URL } from '../../lib/config';
-  const { data: baked } = getVitals();
-  fetchLive(VITALS_URL).then((live) => applyVitals(live, baked));
+
+  function bootDetail() {
+    if (!document.querySelector('.dt-wrap')) return;
+    const { data: baked } = getVitals();
+    fetchLive(VITALS_URL).then((live) => applyVitals(live, baked));
+  }
+  document.addEventListener('astro:page-load', bootDetail);
 </script>

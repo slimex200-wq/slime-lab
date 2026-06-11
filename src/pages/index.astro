@@ -92,68 +92,80 @@ const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || 
 </style>
 
 <script>
-  import { mountHeart } from '../engine/mount';
+  import { mountHeart, type HeartHandle } from '../engine/mount';
   import { fetchLive, applyVitals } from '../lib/vitals-client';
   import { getVitals } from '../lib/vitals';
   import { VITALS_URL } from '../lib/config';
 
-  const hero = document.getElementById('hero')!;
-  const bpm = Number(hero.dataset.bpm ?? 62);
-  const reduced =
-    matchMedia('(prefers-reduced-motion: reduce)').matches ||
-    new URLSearchParams(location.search).has('reduced');
+  let engine: HeartHandle | null = null;
 
-  const r = mountHeart({ host: document.body, bpm, reducedMotion: reduced });
-  if ('fallback' in r) hero.classList.add('no-webgl');
+  function boot() {
+    const hero = document.getElementById('hero');
+    if (!hero) return; // 다른 페이지의 page-load — 이 모듈 담당 아님
 
-  /* 라이브 바이탈 — 실패 시 STALE 라벨 (silent fallback 금지) */
-  const { data: baked } = getVitals();
-  fetchLive(VITALS_URL).then((live) =>
-    applyVitals(live, baked, 'fallback' in r ? undefined : r.setBpm));
+    const bpm = Number(hero.dataset.bpm ?? 62);
+    const reduced =
+      matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      new URLSearchParams(location.search).has('reduced');
 
-  /* 헤드라인 글자 스태거 */
-  const h1 = document.getElementById('h1')!;
-  const parts: { t?: string; em?: boolean; br?: boolean }[] = [
-    { t: 'Sixteen experiments.' }, { br: true },
-    { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
-  ];
-  let delay = 600;
-  for (const p of parts) {
-    if (p.br) { h1.appendChild(document.createElement('br')); continue; }
-    for (const chr of p.t ?? '') {
-      const s = document.createElement('span');
-      s.className = 'ch';
-      s.setAttribute('aria-hidden', 'true');
-      s.innerHTML = chr === ' ' ? '&nbsp;' : chr;
-      if (p.em) { const em = document.createElement('em'); em.appendChild(s); h1.appendChild(em); }
-      else h1.appendChild(s);
-      s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
-      delay += 26;
+    const r = mountHeart({ host: document.body, bpm, reducedMotion: reduced });
+    if ('fallback' in r) hero.classList.add('no-webgl');
+    else engine = r;
+
+    /* 라이브 바이탈 — 실패 시 STALE 라벨 (silent fallback 금지) */
+    const { data: baked } = getVitals();
+    fetchLive(VITALS_URL).then((live) => applyVitals(live, baked, engine?.setBpm));
+
+    /* 헤드라인 글자 스태거 */
+    const h1 = document.getElementById('h1')!;
+    const parts: { t?: string; em?: boolean; br?: boolean }[] = [
+      { t: 'Sixteen experiments.' }, { br: true },
+      { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
+    ];
+    let delay = 600;
+    for (const p of parts) {
+      if (p.br) { h1.appendChild(document.createElement('br')); continue; }
+      for (const chr of p.t ?? '') {
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.setAttribute('aria-hidden', 'true');
+        s.innerHTML = chr === ' ' ? '&nbsp;' : chr;
+        if (p.em) { const em = document.createElement('em'); em.appendChild(s); h1.appendChild(em); }
+        else h1.appendChild(s);
+        s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
+        delay += 26;
+      }
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('.ch').forEach((s) => {
+        s.style.opacity = '1';
+        s.style.transform = 'none';
+      });
+    }));
+
+    /* 모노 라벨 스크램블 디코딩 */
+    function scramble(el: HTMLElement, startDelay: number) {
+      const fin = el.textContent ?? '';
+      const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/—·';
+      let f = 0;
+      setTimeout(() => {
+        const iv = setInterval(() => {
+          f++;
+          el.textContent = [...fin]
+            .map((c, i) => (c === ' ' ? ' ' : i < f * 0.9 ? fin[i] : glyphs[(Math.random() * glyphs.length) | 0]))
+            .join('');
+          if (f * 0.9 >= fin.length) { el.textContent = fin; clearInterval(iv); }
+        }, 28);
+      }, startDelay);
+    }
+    if (!reduced) {
+      document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el, i) => scramble(el, 500 + i * 250));
     }
   }
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    document.querySelectorAll<HTMLElement>('.ch').forEach((s) => {
-      s.style.opacity = '1';
-      s.style.transform = 'none';
-    });
-  }));
 
-  /* 모노 라벨 스크램블 디코딩 */
-  function scramble(el: HTMLElement, startDelay: number) {
-    const fin = el.textContent ?? '';
-    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/—·';
-    let f = 0;
-    setTimeout(() => {
-      const iv = setInterval(() => {
-        f++;
-        el.textContent = [...fin]
-          .map((c, i) => (c === ' ' ? ' ' : i < f * 0.9 ? fin[i] : glyphs[(Math.random() * glyphs.length) | 0]))
-          .join('');
-        if (f * 0.9 >= fin.length) { el.textContent = fin; clearInterval(iv); }
-      }, 28);
-    }, startDelay);
-  }
-  if (!reduced) {
-    document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el, i) => scramble(el, 500 + i * 250));
-  }
+  document.addEventListener('astro:page-load', boot);
+  document.addEventListener('astro:before-swap', () => {
+    engine?.destroy();
+    engine = null;
+  });
 </script>
