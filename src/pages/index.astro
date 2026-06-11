@@ -1,8 +1,151 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { getVitals, labBpm } from '../lib/vitals';
+
+const specimens = (await getCollection('specimens')).sort((a, b) => a.data.no.localeCompare(b.data.no));
+const { data: vitals } = getVitals();
+const bpm = labBpm(vitals.specimens);
+const aliveCount = specimens.filter((s) => s.data.status === 'live' || s.data.status === 'beta').length;
+const asOf = vitals.generatedAt.slice(0, 10);
+const railCls = (st: string) => (st === 'live' ? '' : st === 'beta' ? ' beta' : ' arch');
+const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || st === 'frozen' ? 'st-arch' : 'st-beta');
 ---
 <Base>
-  <main style="position:relative;z-index:10;padding:120px 56px">
-    <h1 style="font-family:var(--mono)">SLIME LAB — scaffold OK</h1>
-  </main>
+  <section id="hero" data-bpm={bpm}>
+    <canvas class="hero-canvas"></canvas>
+    <canvas class="hero-anno"></canvas>
+    <img class="hero-fallback" src="/fallback-heart.png" alt="Pointillism anatomical heart — 30,000 cells" width="640" height="640" />
+
+    <div id="rail" aria-hidden="true">
+      <div class="rl-h">WIRED IN — {specimens.length} EXPERIMENTS</div>
+      {specimens.map((s, idx) => (
+        <div class={`rl${railCls(s.data.status)}`}>
+          <i></i><span class="ln">{String(idx + 1).padStart(2, '0')}</span><em>{s.id}</em>
+        </div>
+      ))}
+    </div>
+
+    <div class="callout red" id="co-aorta" aria-hidden="true"><b>AORTA</b> — SHIP PIPELINE</div>
+    <div class="callout" id="co-lv" aria-hidden="true"><b>LEFT VENTRICLE</b> — WEEPLE · LIVE</div>
+    <div class="callout" id="co-rv" aria-hidden="true"><b>RIGHT VENTRICLE</b> — MUSE · SRT-SAAS</div>
+    <div class="callout" id="co-apex" aria-hidden="true"><b>APEX</b> — NEXT EXPERIMENT LOADING…</div>
+
+    <div class="topbar reveal" style="animation-delay:.2s">
+      <span><b>SLIME LAB</b>&nbsp;&nbsp;—&nbsp;&nbsp;<span data-scramble>VITAL OBSERVATION DECK</span></span>
+      <span data-scramble>SPECIMEN LAB—000 / 30,000 CELLS</span>
+      <span data-scramble>37.56°N 126.97°E</span>
+    </div>
+
+    <div class="headline">
+      <div class="kicker reveal" style="animation-delay:.4s">/// LAB—000 — THE HEART OF THE LAB · {specimens.length} EXPERIMENTS WIRED IN</div>
+      <h1 id="h1">
+        <span class="sr-only">Sixteen experiments. One heartbeat.</span>
+      </h1>
+      <p class="reveal" style="animation-delay:1.5s">
+        30,000 cells. One organism. Every commit feeds it, every deploy makes it beat harder.
+        Reach in — the cells make way. Click to shock.
+      </p>
+    </div>
+
+    <div class="vitals reveal" style="animation-delay:1.1s">
+      <canvas id="ecg"></canvas>
+      <div class="vrow"><span>PULSE</span><b id="v-bpm">{bpm} BPM</b></div>
+      <div class="vrow"><span>ALIVE</span><b class="live">{aliveCount} / {specimens.length}</b></div>
+      <div class="vrow"><span>SHOCKS</span><b id="v-poke">0</b></div>
+      <div class="vrow"><span>DATA AS OF</span><b>{asOf}</b></div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="bgroup reveal" style="animation-delay:1.7s">
+        <a class="btn primary magnetic" href="#index">ENTER THE LAB ↓</a>
+      </div>
+      <span class="hint reveal" style="animation-delay:1.9s">SCROLL — SPECIMEN INDEX BELOW</span>
+    </div>
+  </section>
+
+  <section class="idx-wrap" id="index">
+    <div class="idx-head">
+      <h2>Specimen <em>index</em>.</h2>
+      <span>HOVER TO FEEL · CLICK TO EXAMINE</span>
+    </div>
+    <div>
+      {specimens.map((s) => (
+        <a class="srow" href={`/specimen/${s.id}/`}>
+          <span class="no">LAB—{s.data.no}</span>
+          <span class="nm">{s.data.name.toUpperCase()}</span>
+          <span class="cls">{s.data.class}</span>
+          <span class="yr">{s.data.year}</span>
+          <span class={`stx ${stCls(s.data.status)}`}><i></i>{s.data.status.toUpperCase()}</span>
+          <span class="go">EXAMINE →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div id="cur-ring"><span id="cur-label">SHOCK</span></div>
+  <div id="cur-dot"></div>
 </Base>
+
+<style>
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+
+<script>
+  import { mountHeart } from '../engine/mount';
+
+  const hero = document.getElementById('hero')!;
+  const bpm = Number(hero.dataset.bpm ?? 62);
+  const reduced =
+    matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    new URLSearchParams(location.search).has('reduced');
+
+  const r = mountHeart({ host: document.body, bpm, reducedMotion: reduced });
+  if ('fallback' in r) hero.classList.add('no-webgl');
+
+  /* 헤드라인 글자 스태거 */
+  const h1 = document.getElementById('h1')!;
+  const parts: { t?: string; em?: boolean; br?: boolean }[] = [
+    { t: 'Sixteen experiments.' }, { br: true },
+    { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
+  ];
+  let delay = 600;
+  for (const p of parts) {
+    if (p.br) { h1.appendChild(document.createElement('br')); continue; }
+    for (const chr of p.t ?? '') {
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.setAttribute('aria-hidden', 'true');
+      s.innerHTML = chr === ' ' ? '&nbsp;' : chr;
+      if (p.em) { const em = document.createElement('em'); em.appendChild(s); h1.appendChild(em); }
+      else h1.appendChild(s);
+      s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
+      delay += 26;
+    }
+  }
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.querySelectorAll<HTMLElement>('.ch').forEach((s) => {
+      s.style.opacity = '1';
+      s.style.transform = 'none';
+    });
+  }));
+
+  /* 모노 라벨 스크램블 디코딩 */
+  function scramble(el: HTMLElement, startDelay: number) {
+    const fin = el.textContent ?? '';
+    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/—·';
+    let f = 0;
+    setTimeout(() => {
+      const iv = setInterval(() => {
+        f++;
+        el.textContent = [...fin]
+          .map((c, i) => (c === ' ' ? ' ' : i < f * 0.9 ? fin[i] : glyphs[(Math.random() * glyphs.length) | 0]))
+          .join('');
+        if (f * 0.9 >= fin.length) { el.textContent = fin; clearInterval(iv); }
+      }, 28);
+    }, startDelay);
+  }
+  if (!reduced) {
+    document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el, i) => scramble(el, 500 + i * 250));
+  }
+</script>
