@@ -47,7 +47,10 @@ export function initOverlay(
     if (!rows.length) return;
     rows.forEach((r) => { r.style.display = ''; });
     rail.querySelector('#rl-more')?.remove();
-    const avail = kicker.getBoundingClientRect().top - rail.getBoundingClientRect().top - 34;
+    // 스크롤 무관 계산: kicker는 문서 흐름(스크롤 보정 필요), rail은 fixed(화면 고정).
+    // 검사실에서 back 복귀 시 스크롤이 아래에 있어도 "스크롤 0 기준" 공간으로 판정해야 함.
+    const kickerScreenTopAtZero = kicker.getBoundingClientRect().top + scrollY;
+    const avail = kickerScreenTopAtZero - rail.getBoundingClientRect().top - 34;
     const rowH = rows[0].getBoundingClientRect().height || 18;
     let fit = Math.floor(avail / rowH);
     if (fit < rows.length) {
