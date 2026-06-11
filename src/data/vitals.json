@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-06-11T00:00:00Z",
+  "specimens": {
+    "weeple": {
+      "weeklyCommits": 14,
+      "lastShipDays": 2
+    },
+    "muse-prompt-studio": {
+      "weeklyCommits": 8,
+      "lastShipDays": 6
+    },
+    "srt-saas": {
+      "weeklyCommits": 6,
+      "lastShipDays": 3
+    },
+    "tokodachi": {
+      "weeklyCommits": 5,
+      "lastShipDays": 5
+    },
+    "rightbefore": {
+      "weeklyCommits": 4,
+      "lastShipDays": 1
+    },
+    "kage-studio": {
+      "weeklyCommits": 2,
+      "lastShipDays": 21
+    },
+    "beep-get": {
+      "weeklyCommits": 3,
+      "lastShipDays": 9
+    },
+    "orido": {
+      "weeklyCommits": 2,
+      "lastShipDays": 14
+    },
+    "receipt-anything": {
+      "weeklyCommits": 1,
+      "lastShipDays": 18
+    },
+    "flatsnap": {
+      "weeklyCommits": 1,
+      "lastShipDays": 12
+    },
+    "insane-search": {
+      "weeklyCommits": 3,
+      "lastShipDays": 7
+    },
+    "diffwatch": {
+      "weeklyCommits": 0,
+      "lastShipDays": 999
+    },
+    "searchmachine": {
+      "weeklyCommits": 0,
+      "lastShipDays": 999
+    },
+    "youtube-shorts-music": {
+      "weeklyCommits": 1,
+      "lastShipDays": 10
+    },
+    "ai-threads": {
+      "weeklyCommits": 2,
+      "lastShipDays": 8
+    },
+    "mailcal": {
+      "weeklyCommits": 0,
+      "lastShipDays": 999
+    }
+  }
+}
