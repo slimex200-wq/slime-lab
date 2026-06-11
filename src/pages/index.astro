@@ -123,6 +123,13 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
 
   <div id="cur-ring"><span id="cur-label">SHOCK</span></div>
   <div id="cur-dot"></div>
+
+  <script type="application/json" id="lab-data" set:html={JSON.stringify({
+    specimens: specimens.map((s) => ({
+      slug: s.id, no: s.data.no, name: s.data.name, cls: s.data.class,
+      year: s.data.year, status: s.data.status, autopsy: s.data.autopsy,
+    })),
+  })} />
 </Base>
 
 <style>
@@ -132,11 +139,13 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
 <script>
   import { mountHeart, type HeartHandle } from '../engine/mount';
   import { createSound } from '../engine/sound';
-  import { fetchLive, applyVitals } from '../lib/vitals-client';
+  import { initTerminal, type LabData } from '../engine/terminal';
+  import { fetchLive, applyVitals, getMergedVitals } from '../lib/vitals-client';
   import { getVitals } from '../lib/vitals';
   import { VITALS_URL } from '../lib/config';
 
   let engine: HeartHandle | null = null;
+  let term: { destroy(): void } | null = null;
 
   function boot() {
     const hero = document.getElementById('hero');
@@ -161,6 +170,15 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
     });
     if ('fallback' in r) hero.classList.add('no-webgl');
     else engine = r;
+
+    /* 터미널 이스터에그 (` 키) — 터치 단말 제외 */
+    const dataEl = document.getElementById('lab-data');
+    if (dataEl && !matchMedia('(pointer: coarse)').matches) {
+      const labData: LabData = JSON.parse(dataEl.textContent ?? '{"specimens":[]}');
+      term = initTerminal(labData);
+      // 라이브 바이탈 도착 시 터미널도 같은 데이터를 보게
+      Object.defineProperty(labData, 'vitals', { get: getMergedVitals });
+    }
 
     /* 라이브 바이탈 — 실패 시 STALE 라벨 (silent fallback 금지) */
     const { data: baked } = getVitals();
@@ -230,5 +248,7 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
   document.addEventListener('astro:before-swap', () => {
     engine?.destroy();
     engine = null;
+    term?.destroy();
+    term = null;
   });
 </script>

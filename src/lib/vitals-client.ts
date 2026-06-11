@@ -28,6 +28,12 @@ export function mergeVitals(baked: Vitals, live: LiveVitals): Vitals['specimens'
   return { ...baked.specimens, ...live.specimens };
 }
 
+/* 마지막 머지 결과 — 터미널 등 다른 소비자가 호출 시점 기준으로 조회 */
+let lastMerged: Vitals['specimens'] | null = null;
+export function getMergedVitals(): Vitals['specimens'] | null {
+  return lastMerged;
+}
+
 export function applyVitals(
   live: LiveVitals | null,
   baked: Vitals,
@@ -42,6 +48,7 @@ export function applyVitals(
     return;
   }
   const merged = mergeVitals(baked, live);
+  lastMerged = merged;
   const total = Object.values(merged).reduce((s, v) => s + v.weeklyCommits, 0);
   setBpm?.(bpmFromCommits(total));
 
