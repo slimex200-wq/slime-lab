@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { getVitals } from '../../lib/vitals';
+
+export async function getStaticPaths() {
+  const specimens = await getCollection('specimens');
+  return specimens.map((s) => ({ params: { slug: s.id }, props: { specimen: s } }));
+}
+
+const { specimen } = Astro.props;
+const { Content } = await render(specimen);
+const d = specimen.data;
+const { data: vitals } = getVitals();
+const v = vitals.specimens[specimen.id];
+const dead = d.status === 'archived' || d.status === 'frozen';
+---
+<Base title={`${d.name} — SLIME LAB`} description={`Specimen LAB—${d.no}: ${d.name}`}>
+  <div class="topbar">
+    <span><b>SLIME LAB</b>&nbsp;&nbsp;—&nbsp;&nbsp;EXAMINATION ROOM</span>
+    <span>LAB—{d.no} / {d.name.toUpperCase()}</span>
+    <span>MAG ×400</span>
+  </div>
+  <main class="dt-wrap">
+    <a class="dt-back" href="/#index">← BACK TO INDEX</a>
+    <div class="dt-no">SPECIMEN LAB—{d.no}</div>
+    <h1>{d.name}</h1>
+    <div class="dt-meta">
+      <span>CLASS <b>{d.class.toUpperCase()}</b></span>
+      <span>YEAR <b>{d.year}</b></span>
+      <span>STATUS <b>{d.status.toUpperCase()}</b></span>
+      {v && !dead && <span>LAST SHIP <b>{v.lastShipDays}D AGO</b></span>}
+      <span>OPERATOR <b>1 HUMAN + AI</b></span>
+    </div>
+    <div class="dt-desc"><Content /></div>
+    {d.autopsy && (
+      <div class="dt-autopsy">
+        <b>† AUTOPSY REPORT</b><br />
+        DIED — {d.autopsy.died}<br />
+        CAUSE OF DEATH — {d.autopsy.cause}<br />
+        ORGANS PRESERVED — {d.autopsy.organs}
+      </div>
+    )}
+    <div class="dt-links">
+      {d.links.site && <a class="btn" href={d.links.site} rel="noopener">VISIT LIVE SITE ↗</a>}
+      {d.links.store && <a class="btn" href={d.links.store} rel="noopener">APP STORE ↗</a>}
+    </div>
+  </main>
+</Base>
