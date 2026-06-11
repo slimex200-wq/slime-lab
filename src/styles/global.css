@@ -268,9 +268,14 @@ button { font-family: inherit; }
 @media (max-width: 1100px) { #rail { display: none; } }
 @media (max-width: 900px) {
   .vitals { display: none; }
-  .headline { left: 28px; bottom: 104px; }
+  .headline { left: 28px; right: 28px; bottom: 110px; }
+  .headline h1 { font-size: clamp(30px, 9.5vw, 44px); }
   .topbar { padding: 32px 28px 0; }
-  .hero-bottom { left: 28px; right: 28px; }
+  .topbar span:nth-child(2), .topbar span:nth-child(3) { display: none; }
+  .hero-bottom { left: 28px; right: 28px; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .hint { display: none; }
+  .btn { white-space: nowrap; }
+  #lab-term { display: none !important; }
   .idx-wrap, .dt-wrap { padding: 100px 24px 120px; }
   .srow { grid-template-columns: 70px 1fr 90px; }
   .srow .cls, .srow .yr, .srow .go { display: none; }

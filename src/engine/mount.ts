@@ -87,9 +87,16 @@ export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
 
   const heartC = { x: 0, y: 0, s: 1 };
   function layout() {
-    heartC.x = innerWidth * 0.65;
-    heartC.y = innerHeight * 0.47;
-    heartC.s = Math.min(innerHeight * 0.225, innerWidth * 0.15);
+    if (innerWidth < 900) {
+      // 모바일: 헤드라인 위 공간에 크게
+      heartC.x = innerWidth * 0.55;
+      heartC.y = innerHeight * 0.28;
+      heartC.s = Math.min(innerHeight * 0.16, innerWidth * 0.30);
+    } else {
+      heartC.x = innerWidth * 0.65;
+      heartC.y = innerHeight * 0.47;
+      heartC.s = Math.min(innerHeight * 0.225, innerWidth * 0.15);
+    }
   }
   layout();
 

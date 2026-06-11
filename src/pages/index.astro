@@ -193,16 +193,25 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
     let delay = 300;
     for (const p of parts) {
       if (p.br) { h1.appendChild(document.createElement('br')); continue; }
-      for (const chr of p.t ?? '') {
-        const s = document.createElement('span');
-        s.className = 'ch';
-        s.setAttribute('aria-hidden', 'true');
-        s.innerHTML = chr === ' ' ? '&nbsp;' : chr;
-        if (p.em) { const em = document.createElement('em'); em.appendChild(s); h1.appendChild(em); }
-        else h1.appendChild(s);
-        s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
-        delay += 18;
-      }
+      const words = (p.t ?? '').split(' ');
+      words.forEach((w, wi) => {
+        // 단어 단위 nowrap 래퍼 — 글자 span이 단어 중간에서 줄바꿈되는 것 방지
+        const wordEl = document.createElement('span');
+        wordEl.style.display = 'inline-block';
+        wordEl.style.whiteSpace = 'nowrap';
+        for (const chr of w) {
+          const s = document.createElement('span');
+          s.className = 'ch';
+          s.setAttribute('aria-hidden', 'true');
+          s.textContent = chr;
+          wordEl.appendChild(s);
+          s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
+          delay += 18;
+        }
+        if (p.em) { const em = document.createElement('em'); em.appendChild(wordEl); h1.appendChild(em); }
+        else h1.appendChild(wordEl);
+        if (wi < words.length - 1) h1.appendChild(document.createTextNode(' '));
+      });
     }
     requestAnimationFrame(() => requestAnimationFrame(() => {
       document.querySelectorAll<HTMLElement>('.ch').forEach((s) => {
