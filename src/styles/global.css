@@ -196,6 +196,56 @@ button { font-family: inherit; }
 .dt-autopsy b { color: var(--red); font-weight: 500; }
 .dt-links { display: flex; gap: 14px; }
 
+/* ── THE DIG ── */
+.dig-wrap { position: relative; height: 300vh; z-index: 10; }
+.dig-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.dig-tag {
+  position: absolute; top: 24px; left: 28px; z-index: 50; font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .14em; padding: 6px 12px; border-radius: 4px;
+  background: rgba(214,168,96,.14); color: #D6A860; border: 1px solid rgba(214,168,96,.35);
+}
+#strata { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.layer { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; padding: 0 24px; text-align: center; }
+.layer .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; }
+.layer h2 { font-size: clamp(34px, 4.6vw, 62px); font-weight: 500; letter-spacing: -.03em; }
+.layer p { font-family: var(--mono); font-size: 12px; max-width: 720px; line-height: 1.9; }
+.l-top { background: linear-gradient(#11231C, #0E1A15); color: #D8F0E4; border-bottom: 2px dashed rgba(43,228,164,.25); }
+.l-top .tag { color: var(--mint); } .l-top p { color: #5E7E70; }
+.l-mid { background: linear-gradient(#15130E, #120F0A); color: #EADFC8; border-bottom: 2px dashed rgba(214,168,96,.3); }
+.l-mid .tag { color: #D6A860; } .l-mid p { color: #8A7C5E; }
+.l-fossil { background: linear-gradient(#0A0A0C, #060608); color: #9A9AA2; }
+.l-fossil .tag { color: #5E5E68; } .l-fossil p { color: #4A4A54; }
+.bone {
+  display: block; font-family: var(--mono); font-size: 13px; color: #7E7E88; border: 1px dashed #3A3A44;
+  padding: 10px 18px; border-radius: 6px; transform: rotate(-1.5deg); text-decoration: none;
+  margin-top: 10px; transition: color .2s, border-color .2s, transform .25s;
+}
+.bone:nth-child(odd) { transform: rotate(1.2deg); }
+.bone:hover { color: #CFCFDA; border-color: #6E6E7A; transform: rotate(0); }
+#depth-rule { position: absolute; right: 0; top: 0; bottom: 0; width: 14px; z-index: 85;
+  background: repeating-linear-gradient(180deg, transparent 0 18px, rgba(255,255,255,.22) 18px 19px); }
+#depth-hud { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); z-index: 90; text-align: right; font-family: var(--mono); }
+#depth-hud .m { font-size: 34px; color: #fff; font-weight: 500; letter-spacing: -.02em; }
+#depth-hud .cap { font-size: 10px; color: #777; letter-spacing: .18em; margin-top: 4px; }
+
+.lab-footer {
+  position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center;
+  padding: 36px 56px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--mint-dim);
+  background: #060608;
+}
+.lab-footer b { color: var(--mint); font-weight: 500; }
+.lab-footer a { color: var(--mint-text); text-decoration: none; }
+.lab-footer a:hover { color: var(--mint); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dig-wrap { height: auto; }
+  .dig-sticky { position: static; height: auto; overflow: visible; }
+  #strata { transform: none !important; position: static; }
+  .layer { height: auto; padding: 90px 24px; }
+  #depth-hud, #depth-rule { display: none; }
+  .reveal { animation: none; opacity: 1; transform: none; }
+}
+
 @media (max-width: 1100px) { #rail { display: none; } }
 @media (max-width: 900px) {
   .vitals { display: none; }

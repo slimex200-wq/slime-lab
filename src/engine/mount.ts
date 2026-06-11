@@ -13,8 +13,10 @@ export interface MountOpts {
   bpm: number;
   pointCount?: number;
   reducedMotion?: boolean;
-  /** 박동 상승 에지 훅 — M3에서 사운드 연결 */
+  /** 박동 상승 에지 훅 (히어로가 보일 때만 호출됨) */
   onBeat?: () => void;
+  /** 쇼크(클릭) 훅 — 박동음보다 크게 등 차별화용 */
+  onShock?: () => void;
 }
 
 const SEED = 20260611;
@@ -98,7 +100,7 @@ export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
     pokeCount++;
     if (pokeEl) pokeEl.textContent = String(pokeCount);
     shock(phys, BASE, x, y, heartC.s * 3.0, shockRng);
-    opts.onBeat?.();
+    opts.onShock?.();
   }
   /** 스크롤 진행도: 히어로 위 1 → 인덱스 진입 0. 심장/콜아웃/레일이 흐려지며 가라앉음 */
   let lastFade = -1;
@@ -139,7 +141,7 @@ export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
 
     const prox = Math.max(0, 1 - Math.hypot(mouse.x - heartC.x, mouse.y - heartC.y) / (heartC.s * 3.2));
     const { beat, bpmNow, thumpEdge } = stepHeart(heart, dt, prox);
-    if (thumpEdge) opts.onBeat?.();
+    if (thumpEdge && heroFade() > 0.5) opts.onBeat?.();
 
     const th = 0.6 * Math.sin(tt * 0.28);            // 스윙 ±34°
     const cs = Math.cos(th), sn = Math.sin(th);
