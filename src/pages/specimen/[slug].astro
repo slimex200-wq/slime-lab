@@ -41,9 +41,25 @@ const dead = d.status === 'archived' || d.status === 'frozen';
         ORGANS PRESERVED — {d.autopsy.organs}
       </div>
     )}
+    {(d.video || d.shots.length > 0) && (
+      <div class="dt-media">
+        <div class="dt-media-h">SPECIMEN IMAGING</div>
+        {d.video && (
+          <video class="dt-video" controls muted playsinline preload="metadata" src={d.video} />
+        )}
+        {d.shots.length > 0 && (
+          <div class="dt-shots">
+            {d.shots.map((src) => (
+              <img src={src} alt={`${d.name} — specimen imaging`} loading="lazy" decoding="async" />
+            ))}
+          </div>
+        )}
+      </div>
+    )}
     <div class="dt-links">
       {d.links.site && <a class="btn" href={d.links.site} rel="noopener">VISIT LIVE SITE ↗</a>}
-      {d.links.store && <a class="btn" href={d.links.store} rel="noopener">APP STORE ↗</a>}
+      {d.links.store && <a class="btn" href={d.links.store} rel="noopener">GET THE APP ↗</a>}
+      {d.links.releases && <a class="btn" href={d.links.releases} rel="noopener">RELEASES ↗</a>}
     </div>
   </main>
 </Base>

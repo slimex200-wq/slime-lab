@@ -5,7 +5,10 @@ class: creator tool
 year: 2026
 status: live
 repo: "slimex200-wq/mp3-suno-custom-mode-generator-v4"
-links: {}
+links:
+  site: "https://muse-prompt.app"
+shots:
+  - "/specimens/muse-prompt-studio/web.png"
 autopsy: null
 ---
 

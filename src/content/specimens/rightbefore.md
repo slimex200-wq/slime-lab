@@ -5,7 +5,8 @@ class: desktop tool
 year: 2026
 status: live
 repo: "slimex200-wq/rightbefore-releases"
-links: {}
+links:
+  releases: "https://github.com/slimex200-wq/rightbefore-releases/releases"
 autopsy: null
 ---
 
