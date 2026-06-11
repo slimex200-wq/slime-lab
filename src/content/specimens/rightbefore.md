@@ -4,7 +4,7 @@ name: "RightBefore"
 class: desktop tool
 year: 2026
 status: live
-repo: null
+repo: "slimex200-wq/rightbefore-releases"
 links: {}
 autopsy: null
 ---

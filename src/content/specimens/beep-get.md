@@ -4,7 +4,7 @@ name: "beep-get"
 class: consumer app
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/beep-get"
 links: {}
 autopsy: null
 ---

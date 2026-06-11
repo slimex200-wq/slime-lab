@@ -4,7 +4,7 @@ name: "Receipt Anything"
 class: consumer app
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/receipt-anything"
 links: {}
 autopsy: null
 ---

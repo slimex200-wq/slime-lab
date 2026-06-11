@@ -4,7 +4,7 @@ name: "ai-threads"
 class: creator tool
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/ai-threads"
 links: {}
 autopsy: null
 ---

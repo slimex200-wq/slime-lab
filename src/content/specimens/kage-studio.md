@@ -4,7 +4,7 @@ name: "Kage Studio"
 class: creator tool
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/kage-studio"
 links: {}
 autopsy: null
 ---

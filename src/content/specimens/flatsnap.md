@@ -4,7 +4,7 @@ name: "FlatSnap"
 class: experiment
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/flatsnap"
 links: {}
 autopsy: null
 ---

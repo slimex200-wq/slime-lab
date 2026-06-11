@@ -4,7 +4,7 @@ name: "diffwatch"
 class: dev tool
 year: 2026
 status: archived
-repo: null
+repo: "slimex200-wq/diffwatch"
 links: {}
 autopsy:
   died: "2026-05"

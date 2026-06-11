@@ -4,7 +4,7 @@ name: "Orido"
 class: consumer app
 year: 2026
 status: beta
-repo: null
+repo: "slimex200-wq/orido"
 links: {}
 autopsy: null
 ---
