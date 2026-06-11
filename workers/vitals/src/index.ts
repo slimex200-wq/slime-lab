@@ -51,6 +51,12 @@ function githubFetcher(token: string | undefined): RepoFetcher {
 async function refresh(env: Env): Promise<string> {
   const out = await buildVitals(REPO_MAP, githubFetcher(env.GITHUB_TOKEN), new Date());
   const body = JSON.stringify({ ...out, auth: env.GITHUB_TOKEN ? 'ok' : 'degraded' });
+  // 설계서 §6 마지막 캐시 유지: 전멸(0건) 결과로 멀쩡한 캐시를 덮어쓰지 않는다.
+  // 클라이언트는 generatedAt 날짜로 신선도를 그대로 노출한다 (침묵 금지).
+  if (Object.keys(out.specimens).length === 0) {
+    const existing = await env.VITALS.get('latest');
+    if (existing) return existing;
+  }
   await env.VITALS.put('latest', body);
   return body;
 }
