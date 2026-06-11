@@ -4,7 +4,7 @@ name: "Weeple"
 class: consumer app
 year: 2025
 status: live
-repo: null
+repo: "slimex200-wq/claude-budget-app"
 links: {}
 autopsy: null
 ---

@@ -9,8 +9,8 @@ interface Env {
 
 /** 표본 frontmatter와 동일한 매핑 (미매핑 5종은 null — 형 확인 후 채움) */
 const REPO_MAP: RepoMapEntry[] = [
-  { slug: 'weeple', repo: null },
-  { slug: 'muse-prompt-studio', repo: null },
+  { slug: 'weeple', repo: 'slimex200-wq/claude-budget-app' },
+  { slug: 'muse-prompt-studio', repo: 'slimex200-wq/mp3-suno-custom-mode-generator-v4' },
   { slug: 'srt-saas', repo: 'slimex200-wq/srt-saas' },
   { slug: 'tokodachi', repo: 'slimex200-wq/tokodachi' },
   { slug: 'rightbefore', repo: 'slimex200-wq/rightbefore-releases' },
