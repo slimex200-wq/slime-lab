@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T00:00:00Z",
+  "generatedAt": "2026-06-11T15:30:29.609Z",
   "specimens": {
     "weeple": {
       "weeklyCommits": 14,
@@ -18,16 +18,16 @@
       "lastShipDays": 5
     },
     "rightbefore": {
-      "weeklyCommits": 4,
-      "lastShipDays": 1
+      "weeklyCommits": 1,
+      "lastShipDays": 0
     },
     "kage-studio": {
       "weeklyCommits": 2,
       "lastShipDays": 21
     },
     "beep-get": {
-      "weeklyCommits": 3,
-      "lastShipDays": 9
+      "weeklyCommits": 10,
+      "lastShipDays": 2
     },
     "orido": {
       "weeklyCommits": 2,
@@ -47,7 +47,7 @@
     },
     "diffwatch": {
       "weeklyCommits": 0,
-      "lastShipDays": 999
+      "lastShipDays": 67
     },
     "searchmachine": {
       "weeklyCommits": 0,
@@ -58,8 +58,8 @@
       "lastShipDays": 10
     },
     "ai-threads": {
-      "weeklyCommits": 2,
-      "lastShipDays": 8
+      "weeklyCommits": 0,
+      "lastShipDays": 9
     },
     "mailcal": {
       "weeklyCommits": 0,

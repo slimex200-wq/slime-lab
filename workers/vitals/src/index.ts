@@ -22,7 +22,7 @@ const REPO_MAP: RepoMapEntry[] = [
   { slug: 'insane-search', repo: null },
   { slug: 'diffwatch', repo: 'slimex200-wq/diffwatch', flatline: true },
   { slug: 'searchmachine', repo: 'slimex200-wq/searchmachine', flatline: true },
-  { slug: 'youtube-shorts-music', repo: null },
+  { slug: 'youtube-shorts-music', repo: 'slimex200-wq/youtube-my-library' },
   { slug: 'ai-threads', repo: 'slimex200-wq/ai-threads' },
   { slug: 'mailcal', repo: null },
 ];
