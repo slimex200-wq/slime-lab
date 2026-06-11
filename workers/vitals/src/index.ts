@@ -1,5 +1,6 @@
+/// <reference types="@cloudflare/workers-types" />
 /** slime-lab-vitals — cron 15분마다 GitHub 활동 집계 → KV, fetch는 CORS JSON 서빙 */
-import { buildVitals, type RepoFetcher } from './logic';
+import { buildVitals, type RepoFetcher, type RepoMapEntry } from './logic';
 
 interface Env {
   VITALS: KVNamespace;
@@ -7,7 +8,7 @@ interface Env {
 }
 
 /** 표본 frontmatter와 동일한 매핑 (미매핑 5종은 null — 형 확인 후 채움) */
-const REPO_MAP: { slug: string; repo: string | null }[] = [
+const REPO_MAP: RepoMapEntry[] = [
   { slug: 'weeple', repo: null },
   { slug: 'muse-prompt-studio', repo: null },
   { slug: 'srt-saas', repo: 'slimex200-wq/srt-saas' },
@@ -19,8 +20,8 @@ const REPO_MAP: { slug: string; repo: string | null }[] = [
   { slug: 'receipt-anything', repo: 'slimex200-wq/receipt-anything' },
   { slug: 'flatsnap', repo: 'slimex200-wq/flatsnap' },
   { slug: 'insane-search', repo: null },
-  { slug: 'diffwatch', repo: 'slimex200-wq/diffwatch' },
-  { slug: 'searchmachine', repo: 'slimex200-wq/searchmachine' },
+  { slug: 'diffwatch', repo: 'slimex200-wq/diffwatch', flatline: true },
+  { slug: 'searchmachine', repo: 'slimex200-wq/searchmachine', flatline: true },
   { slug: 'youtube-shorts-music', repo: null },
   { slug: 'ai-threads', repo: 'slimex200-wq/ai-threads' },
   { slug: 'mailcal', repo: null },

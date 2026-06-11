@@ -34,4 +34,13 @@ describe('buildVitals', () => {
     expect(out.specimens['x']).toBeUndefined();
     expect(out.errors).toEqual(['x']);
   });
+
+  it('flatline(archived/frozen)은 커밋이 있어도 맥박 0, lastShip은 사실대로', async () => {
+    const out = await buildVitals(
+      [{ slug: 'a', repo: 'o/a', flatline: true }],
+      fetcher,
+      new Date('2026-06-12T00:00:00Z'),
+    );
+    expect(out.specimens['a']).toEqual({ weeklyCommits: 0, lastShipDays: 1 });
+  });
 });

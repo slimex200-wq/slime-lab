@@ -25,7 +25,9 @@ const CALLOUT_OFFSETS: Record<string, { ox: number; oy: number }> = {
   apex: { ox: -250, oy: 54 },
 };
 
-export function mountHeart(opts: MountOpts): { destroy(): void } | { fallback: true } {
+export interface HeartHandle { destroy(): void; setBpm(n: number): void; }
+
+export function mountHeart(opts: MountOpts): HeartHandle | { fallback: true } {
   const { host } = opts;
   const q = <T extends Element>(sel: string) => host.querySelector<T>(sel);
   const glCanvas = q<HTMLCanvasElement>('.hero-canvas');
@@ -162,6 +164,7 @@ export function mountHeart(opts: MountOpts): { destroy(): void } | { fallback: t
   raf = requestAnimationFrame(frame);
 
   return {
+    setBpm(n: number) { heart.bpm = n; },
     destroy() {
       destroyed = true;
       cancelAnimationFrame(raf);

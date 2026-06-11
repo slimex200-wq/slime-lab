@@ -160,6 +160,11 @@ button { font-family: inherit; }
 .st-beta { color: var(--amber); }
 .st-arch i { background: #44524B; }
 .st-arch { color: #44524B; }
+/* 라이브 바이탈: 주간 커밋이 많을수록 맥박 점이 빨리 깜빡임 */
+.st-live i { --pulse-base: 1.6s; }
+.st-beta i { --pulse-base: 3s; }
+.st-live i, .st-beta i { animation-duration: var(--pulse-dur, var(--pulse-base)); }
+#telemetry-label.stale { color: var(--amber); }
 .srow .go { opacity: 0; transition: opacity .2s; color: var(--mint); position: absolute; right: 18px; }
 .srow:hover .go { opacity: 1; }
 

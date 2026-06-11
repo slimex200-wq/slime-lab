@@ -29,7 +29,7 @@ const dead = d.status === 'archived' || d.status === 'frozen';
       <span>CLASS <b>{d.class.toUpperCase()}</b></span>
       <span>YEAR <b>{d.year}</b></span>
       <span>STATUS <b>{d.status.toUpperCase()}</b></span>
-      {v && !dead && <span>LAST SHIP <b>{v.lastShipDays}D AGO</b></span>}
+      {v && !dead && <span>LAST SHIP <b data-vital-ship={specimen.id}>{v.lastShipDays}D AGO</b></span>}
       <span>OPERATOR <b>1 HUMAN + AI</b></span>
     </div>
     <div class="dt-desc"><Content /></div>
@@ -47,3 +47,11 @@ const dead = d.status === 'archived' || d.status === 'frozen';
     </div>
   </main>
 </Base>
+
+<script>
+  import { fetchLive, applyVitals } from '../../lib/vitals-client';
+  import { getVitals } from '../../lib/vitals';
+  import { VITALS_URL } from '../../lib/config';
+  const { data: baked } = getVitals();
+  fetchLive(VITALS_URL).then((live) => applyVitals(live, baked));
+</script>

@@ -53,7 +53,7 @@ const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || 
       <div class="vrow"><span>PULSE</span><b id="v-bpm">{bpm} BPM</b></div>
       <div class="vrow"><span>ALIVE</span><b class="live">{aliveCount} / {specimens.length}</b></div>
       <div class="vrow"><span>SHOCKS</span><b id="v-poke">0</b></div>
-      <div class="vrow"><span>DATA AS OF</span><b>{asOf}</b></div>
+      <div class="vrow"><span>TELEMETRY</span><b id="telemetry-label">{asOf} · SNAPSHOT</b></div>
     </div>
 
     <div class="hero-bottom">
@@ -71,7 +71,7 @@ const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || 
     </div>
     <div>
       {specimens.map((s) => (
-        <a class="srow" href={`/specimen/${s.id}/`}>
+        <a class="srow" href={`/specimen/${s.id}/`} data-vital-slug={s.id}>
           <span class="no">LAB—{s.data.no}</span>
           <span class="nm">{s.data.name.toUpperCase()}</span>
           <span class="cls">{s.data.class}</span>
@@ -93,6 +93,9 @@ const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || 
 
 <script>
   import { mountHeart } from '../engine/mount';
+  import { fetchLive, applyVitals } from '../lib/vitals-client';
+  import { getVitals } from '../lib/vitals';
+  import { VITALS_URL } from '../lib/config';
 
   const hero = document.getElementById('hero')!;
   const bpm = Number(hero.dataset.bpm ?? 62);
@@ -102,6 +105,11 @@ const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || 
 
   const r = mountHeart({ host: document.body, bpm, reducedMotion: reduced });
   if ('fallback' in r) hero.classList.add('no-webgl');
+
+  /* 라이브 바이탈 — 실패 시 STALE 라벨 (silent fallback 금지) */
+  const { data: baked } = getVitals();
+  fetchLive(VITALS_URL).then((live) =>
+    applyVitals(live, baked, 'fallback' in r ? undefined : r.setBpm));
 
   /* 헤드라인 글자 스태거 */
   const h1 = document.getElementById('h1')!;

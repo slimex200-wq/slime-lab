@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/bake-vitals.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run --passWithNoTests",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@cloudflare/workers-types": "^4.20260611.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.8"
   }
