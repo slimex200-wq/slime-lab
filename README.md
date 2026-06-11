@@ -2,7 +2,13 @@
 
 > The lab has a heartbeat. — 1인 빌더의 실험실 포트폴리오. 모든 표본(프로젝트)이 하나의 심장에 배선되어 있고, 개발 활동이 심장을 뛰게 한다.
 
-**Live (M1, 가칭 도메인):** https://slime-lab-bxb.pages.dev
+**Live (가칭 도메인):** https://slime-lab-bxb.pages.dev
+
+![30,000점 점묘 심장 히어로 — 커밋이 맥박이 된다](docs/media/hero.png)
+
+| 터미널 이스터에그 (\` 키) | THE DIG — 화석층 부검 |
+|---|---|
+| ![lab console — status/autopsy 명령](docs/media/terminal.png) | ![지층 시추 끝의 화석 기록](docs/media/dig.png) |
 
 ## 스택
 
