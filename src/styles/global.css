@@ -249,7 +249,7 @@ button { font-family: inherit; }
 
 .lab-footer {
   position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center;
-  padding: 36px 56px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--mint-dim);
+  padding: 36px 56px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: #8FA89D;
   background: #060608;
 }
 .lab-footer b { color: var(--mint); font-weight: 500; }
