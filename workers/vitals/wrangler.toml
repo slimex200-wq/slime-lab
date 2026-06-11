@@ -1,0 +1,10 @@
+name = "slime-lab-vitals"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[kv_namespaces]]
+binding = "VITALS"
+id = "f1a085b32bb14b0daec12aa5c949c4b1"
