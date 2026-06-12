@@ -58,4 +58,4 @@ npx wrangler pages deploy dist --project-name slime-lab   # 배포 (수동)
 - OG: 빌드 시 히어로 캡처(배포 시점 BPM 반영) + 메타 태그. 라이브 동적 OG(Satori Worker)는 M4 전 검토로 이연
 - Worker 핸들러 테스트 4종 (waitUntil 캡처) — 총 36 테스트
 - Lighthouse: perf 89 / a11y·BP·SEO 100. LCP 3.5s는 엔트런스 reveal 연출 비용 — 추가 단축은 연출 트레이드오프 결정 필요
-- LCP 개선 (2026-06-12): 헤드라인 char 스태거를 JS 빌드 → Astro 빌드 타임 SSR + CSS 애니메이션으로 이전, LCP 요소(히어로 문단)는 `.reveal-lcp` 고스트(opacity .12) 시작. 로컬 동일 스로틀 하니스(4x CPU + Fast3G) 기준 LCP 페인트 1884ms → 888ms. 실 Lighthouse 수치는 배포 후 재측정 필요
+- LCP 개선 (2026-06-12): 헤드라인 char 스태거를 JS 빌드 → Astro 빌드 타임 SSR + CSS 애니메이션으로 이전, LCP 요소(히어로 문단)는 `.reveal-lcp` 고스트(opacity .12) 시작. 배포 후 실 Lighthouse(모바일): **perf 97 / a11y 100 / BP 100 / SEO 100, LCP 2.0s = FCP** (3회 중앙값, 이전 perf 89 · LCP 3.5s). robots.txt 추가로 SEO 91→100
