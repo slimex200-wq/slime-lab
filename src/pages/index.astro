@@ -12,6 +12,22 @@ const railCls = (st: string) => (st === 'live' ? '' : st === 'beta' ? ' beta' : 
 const stCls = (st: string) => (st === 'live' ? 'st-live' : st === 'archived' || st === 'frozen' ? 'st-arch' : 'st-beta');
 const names = (st: string) => specimens.filter((s) => s.data.status === st).map((s) => s.id).join(' · ');
 const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.status === 'frozen');
+/* 헤드라인 글자 스태거 — 빌드 타임 SSR (LCP: JS 부팅을 기다리지 않고 첫 페인트에 잡히도록) */
+const H1_PARTS: { t?: string; em?: boolean; br?: boolean }[] = [
+  { t: 'Fourteen experiments.' }, { br: true },
+  { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
+];
+let chDelay = 300;
+type H1Word = { chars: { c: string; d: number }[]; em: boolean; sp: boolean };
+const h1Words: (H1Word | { br: true })[] = [];
+for (const p of H1_PARTS) {
+  if (p.br) { h1Words.push({ br: true }); continue; }
+  const words = (p.t ?? '').split(' ');
+  words.forEach((w, wi) => {
+    const chars = [...w].map((c) => { const d = chDelay; chDelay += 18; return { c, d }; });
+    h1Words.push({ chars, em: !!p.em, sp: wi < words.length - 1 });
+  });
+}
 ---
 <Base>
   <section id="hero" data-bpm={bpm}>
@@ -43,8 +59,20 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
       <div class="kicker reveal" style=" animation-delay:.15s">/// LAB—000 — THE HEART OF THE LAB · {specimens.length} EXPERIMENTS WIRED IN</div>
       <h1 id="h1">
         <span class="sr-only">Fourteen experiments. One heartbeat.</span>
+        <span aria-hidden="true">
+          {h1Words.map((w) => ('br' in w ? <br /> : (
+            <>
+              {w.em ? (
+                <em><span class="word">{w.chars.map(({ c, d }) => <span class="ch" style={`--d:${d}ms`}>{c}</span>)}</span></em>
+              ) : (
+                <span class="word">{w.chars.map(({ c, d }) => <span class="ch" style={`--d:${d}ms`}>{c}</span>)}</span>
+              )}
+              {w.sp ? ' ' : ''}
+            </>
+          )))}
+        </span>
       </h1>
-      <p class="reveal" style="animation-delay:.55s">
+      <p class="reveal reveal-lcp" style="animation-delay:.55s">
         30,000 cells. One organism. Every commit feeds it, every deploy makes it beat harder.
         Reach in — the cells make way. Click to shock.
       </p>
@@ -184,41 +212,7 @@ const fossils = specimens.filter((s) => s.data.status === 'archived' || s.data.s
     const { data: baked } = getVitals();
     fetchLive(VITALS_URL).then((live) => applyVitals(live, baked, engine?.setBpm));
 
-    /* 헤드라인 글자 스태거 */
-    const h1 = document.getElementById('h1')!;
-    const parts: { t?: string; em?: boolean; br?: boolean }[] = [
-      { t: 'Fourteen experiments.' }, { br: true },
-      { t: 'One ' }, { t: 'heartbeat', em: true }, { t: '.' },
-    ];
-    let delay = 300;
-    for (const p of parts) {
-      if (p.br) { h1.appendChild(document.createElement('br')); continue; }
-      const words = (p.t ?? '').split(' ');
-      words.forEach((w, wi) => {
-        // 단어 단위 nowrap 래퍼 — 글자 span이 단어 중간에서 줄바꿈되는 것 방지
-        const wordEl = document.createElement('span');
-        wordEl.style.display = 'inline-block';
-        wordEl.style.whiteSpace = 'nowrap';
-        for (const chr of w) {
-          const s = document.createElement('span');
-          s.className = 'ch';
-          s.setAttribute('aria-hidden', 'true');
-          s.textContent = chr;
-          wordEl.appendChild(s);
-          s.style.transition = `opacity .5s ${delay}ms cubic-bezier(.2,.7,.2,1), transform .6s ${delay}ms cubic-bezier(.2,.7,.2,1)`;
-          delay += 18;
-        }
-        if (p.em) { const em = document.createElement('em'); em.appendChild(wordEl); h1.appendChild(em); }
-        else h1.appendChild(wordEl);
-        if (wi < words.length - 1) h1.appendChild(document.createTextNode(' '));
-      });
-    }
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      document.querySelectorAll<HTMLElement>('.ch').forEach((s) => {
-        s.style.opacity = '1';
-        s.style.transform = 'none';
-      });
-    }));
+    /* 헤드라인 스태거는 빌드 타임 SSR + CSS 애니메이션 (frontmatter h1Words 참조) */
 
     /* 모노 라벨 스크램블 디코딩 */
     function scramble(el: HTMLElement, startDelay: number) {

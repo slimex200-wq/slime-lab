@@ -90,6 +90,8 @@ button { font-family: inherit; }
 .btn.primary:hover { background: #5FF0BF; }
 .reveal { opacity: 0; transform: translateY(14px); animation: rv .9s cubic-bezier(.2,.7,.2,1) forwards; }
 @keyframes rv { to { opacity: 1; transform: none; } }
+/* LCP 요소(히어로 문단) 전용 — 고스트 시작으로 첫 페인트에 기록 */
+.reveal-lcp { opacity: .12; }
 @keyframes blip { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
 
 /* ── 히어로 ── */
@@ -122,7 +124,15 @@ button { font-family: inherit; }
 .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: var(--mint); margin-bottom: 16px; }
 .headline h1 { font-size: clamp(40px, 5vw, 72px); font-weight: 500; letter-spacing: -.04em; line-height: 1.0; color: #F2FBF7; word-break: keep-all; }
 .headline h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--mint); }
-.headline h1 .ch { display: inline-block; opacity: 0; transform: translateY(26px) rotate(2deg); }
+.headline h1 .word { display: inline-block; white-space: nowrap; }
+/* opacity 0 대신 고스트(.12) 시작 — LCP가 JS/스태거를 기다리지 않고 첫 페인트에 기록되도록 */
+.headline h1 .ch {
+  display: inline-block;
+  opacity: .12;
+  transform: translateY(26px) rotate(2deg);
+  animation: chrv .6s cubic-bezier(.2,.7,.2,1) var(--d, 0ms) forwards;
+}
+@keyframes chrv { to { opacity: 1; transform: none; } }
 .headline p { margin-top: 18px; font-family: var(--mono); font-size: 12px; line-height: 1.8; color: var(--mint-faint); max-width: 430px; }
 
 .vitals { position: absolute; right: 56px; bottom: 118px; width: 230px; text-align: right; z-index: 10; }
@@ -274,6 +284,7 @@ button { font-family: inherit; }
   .layer { height: auto; padding: 90px 24px; }
   #depth-hud, #depth-rule { display: none; }
   .reveal { animation: none; opacity: 1; transform: none; }
+  .headline h1 .ch { animation: none; opacity: 1; transform: none; }
 }
 
 @media (max-width: 1100px) { #rail { display: none; } }
