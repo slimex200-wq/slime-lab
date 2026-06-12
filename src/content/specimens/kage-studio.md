@@ -6,6 +6,8 @@ year: 2026
 status: beta
 repo: "slimex200-wq/kage-studio"
 links: {}
+shots:
+  - "/specimens/kage-studio/studio.png"
 autopsy: null
 ---
 

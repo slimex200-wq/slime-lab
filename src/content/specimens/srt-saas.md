@@ -5,7 +5,10 @@ class: creator tool
 year: 2026
 status: live
 repo: "slimex200-wq/srt-saas"
-links: {}
+links:
+  site: "https://srt-saas.slimex200.workers.dev"
+shots:
+  - "/specimens/srt-saas/workspace.png"
 autopsy: null
 ---
 

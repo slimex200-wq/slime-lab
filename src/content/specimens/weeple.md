@@ -5,7 +5,11 @@ class: consumer app
 year: 2025
 status: live
 repo: "slimex200-wq/claude-budget-app"
-links: {}
+links:
+  site: "https://weeple.app"
+  store: "https://play.google.com/store/apps/details?id=com.weeple.app"
+shots:
+  - "/specimens/weeple/web.png"
 autopsy: null
 ---
 

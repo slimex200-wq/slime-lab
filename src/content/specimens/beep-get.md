@@ -6,6 +6,9 @@ year: 2026
 status: beta
 repo: "slimex200-wq/beep-get"
 links: {}
+shots:
+  - "/specimens/beep-get/today.png"
+  - "/specimens/beep-get/send.png"
 autopsy: null
 ---
 

@@ -6,7 +6,10 @@ year: 2026
 status: live
 repo: "slimex200-wq/rightbefore-releases"
 links:
+  site: "https://rightbefore-landing.pages.dev"
   releases: "https://github.com/slimex200-wq/rightbefore-releases/releases"
+shots:
+  - "/specimens/rightbefore/landing.png"
 autopsy: null
 ---
 
