@@ -3,7 +3,7 @@ no: "009"
 name: "Receipt Anything"
 class: consumer app
 year: 2026
-status: beta
+status: frozen
 repo: "slimex200-wq/receipt-anything"
 links: {}
 autopsy: null

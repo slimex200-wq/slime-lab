@@ -3,9 +3,12 @@ no: "004"
 name: "Tokodachi"
 class: experiment
 year: 2026
-status: beta
+status: live
 repo: "slimex200-wq/tokodachi"
-links: {}
+links:
+  releases: "https://github.com/slimex200-wq/tokodachi/releases"
+shots:
+  - "/specimens/tokodachi/landing.png"
 autopsy: null
 ---
 

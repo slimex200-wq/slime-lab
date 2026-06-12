@@ -45,9 +45,9 @@ npx wrangler pages deploy dist --project-name slime-lab   # 배포 (수동)
 
 ## 알려진 항목 (M2 종료 시점)
 
-- **미매핑 표본 4종** (repo 미상 → baked 값 표시): weeple, muse-prompt-studio, insane-search, mailcal — 레포명 확인 시 frontmatter + `workers/vitals/src/index.ts` REPO_MAP 동시 갱신
+- ~~미매핑 표본 4종~~ → 해소 (2026-06-12 기준 REPO_MAP 14종 전부 매핑, bake-vitals 14 live keys). insane-search/mailcal은 표본 목록에서 제외됨
 - GITHUB_TOKEN 미설정 동안 private 레포는 `errors[]` + `auth:"degraded"` → UI "PARTIAL" 표기
-- Lighthouse(모바일 스로틀): perf 90 — LCP 3.3s는 엔트런스 reveal 연출, M3 폴리시 대상
+- Lighthouse(모바일 스로틀): perf 90 — LCP는 히어로 SSR 고스트 리빌로 단축 (아래 M3 항목)
 - 도메인 미정 (설계서 오픈 아이템 1)
 
 ## M3 완료 (2026-06-12)
@@ -58,3 +58,4 @@ npx wrangler pages deploy dist --project-name slime-lab   # 배포 (수동)
 - OG: 빌드 시 히어로 캡처(배포 시점 BPM 반영) + 메타 태그. 라이브 동적 OG(Satori Worker)는 M4 전 검토로 이연
 - Worker 핸들러 테스트 4종 (waitUntil 캡처) — 총 36 테스트
 - Lighthouse: perf 89 / a11y·BP·SEO 100. LCP 3.5s는 엔트런스 reveal 연출 비용 — 추가 단축은 연출 트레이드오프 결정 필요
+- LCP 개선 (2026-06-12): 헤드라인 char 스태거를 JS 빌드 → Astro 빌드 타임 SSR + CSS 애니메이션으로 이전, LCP 요소(히어로 문단)는 `.reveal-lcp` 고스트(opacity .12) 시작. 로컬 동일 스로틀 하니스(4x CPU + Fast3G) 기준 LCP 페인트 1884ms → 888ms. 실 Lighthouse 수치는 배포 후 재측정 필요

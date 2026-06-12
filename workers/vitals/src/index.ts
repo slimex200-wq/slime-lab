@@ -17,7 +17,7 @@ const REPO_MAP: RepoMapEntry[] = [
   { slug: 'kage-studio', repo: 'slimex200-wq/kage-studio' },
   { slug: 'beep-get', repo: 'slimex200-wq/beep-get' },
   { slug: 'orido', repo: 'slimex200-wq/orido' },
-  { slug: 'receipt-anything', repo: 'slimex200-wq/receipt-anything' },
+  { slug: 'receipt-anything', repo: 'slimex200-wq/receipt-anything', flatline: true },
   { slug: 'flatsnap', repo: 'slimex200-wq/flatsnap' },
   { slug: 'diffwatch', repo: 'slimex200-wq/diffwatch', flatline: true },
   { slug: 'searchmachine', repo: 'slimex200-wq/searchmachine', flatline: true },

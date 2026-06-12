@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T17:00:29.500Z",
+  "generatedAt": "2026-06-12T17:37:17.273Z",
   "specimens": {
     "weeple": {
       "weeklyCommits": 100,
@@ -7,55 +7,55 @@
     },
     "muse-prompt-studio": {
       "weeklyCommits": 0,
-      "lastShipDays": 26
+      "lastShipDays": 27
     },
     "srt-saas": {
       "weeklyCommits": 0,
-      "lastShipDays": 18
+      "lastShipDays": 19
     },
     "tokodachi": {
-      "weeklyCommits": 45,
+      "weeklyCommits": 75,
       "lastShipDays": 0
     },
     "rightbefore": {
       "weeklyCommits": 1,
-      "lastShipDays": 0
+      "lastShipDays": 1
     },
     "kage-studio": {
       "weeklyCommits": 0,
-      "lastShipDays": 3
+      "lastShipDays": 4
     },
     "beep-get": {
       "weeklyCommits": 10,
-      "lastShipDays": 2
+      "lastShipDays": 3
     },
     "orido": {
       "weeklyCommits": 14,
-      "lastShipDays": 4
+      "lastShipDays": 5
     },
     "receipt-anything": {
-      "weeklyCommits": 1,
-      "lastShipDays": 1
+      "weeklyCommits": 0,
+      "lastShipDays": 2
     },
     "flatsnap": {
       "weeklyCommits": 0,
-      "lastShipDays": 80
+      "lastShipDays": 81
     },
     "diffwatch": {
       "weeklyCommits": 0,
-      "lastShipDays": 67
+      "lastShipDays": 68
     },
     "searchmachine": {
       "weeklyCommits": 0,
-      "lastShipDays": 61
+      "lastShipDays": 62
     },
     "youtube-shorts-music": {
       "weeklyCommits": 0,
-      "lastShipDays": 58
+      "lastShipDays": 59
     },
     "ai-threads": {
-      "weeklyCommits": 0,
-      "lastShipDays": 9
+      "weeklyCommits": 2,
+      "lastShipDays": 0
     }
   }
 }
