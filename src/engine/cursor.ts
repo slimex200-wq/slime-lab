@@ -9,6 +9,14 @@ export function initCursor(dot: HTMLElement, ring: HTMLElement): CursorCtl {
   let rx = innerWidth / 2, ry = innerHeight / 2;
   const bound: [Element, () => void, () => void][] = [];
 
+  // 점(dot)은 rAF 가 아니라 포인터 이벤트로 즉시 추적 — 네이티브 커서와 1:1.
+  // rAF 갱신은 최소 1프레임(~16ms@60fps) 뒤처져 "굼뜬" 느낌을 줬다.
+  function trackDot(e: PointerEvent) {
+    dot.style.left = `${e.clientX}px`;
+    dot.style.top = `${e.clientY}px`;
+  }
+  addEventListener('pointermove', trackDot, { passive: true });
+
   function bindHover(root: ParentNode) {
     root.querySelectorAll('button, a, .srow').forEach((el) => {
       const on = () => ring.classList.add('hov');
@@ -21,9 +29,8 @@ export function initCursor(dot: HTMLElement, ring: HTMLElement): CursorCtl {
 
   return {
     step(dt, mouse, pokeActive) {
-      dot.style.left = `${mouse.x}px`;
-      dot.style.top = `${mouse.y}px`;
-      const k = Math.min(1, dt * 14);
+      // ring 스프링만 rAF 에서 보간 — k 14→22 로 트레일을 더 탄력 있게
+      const k = Math.min(1, dt * 22);
       rx += (mouse.x - rx) * k;
       ry += (mouse.y - ry) * k;
       ring.style.left = `${rx}px`;
@@ -32,6 +39,7 @@ export function initCursor(dot: HTMLElement, ring: HTMLElement): CursorCtl {
     },
     bindHover,
     destroy() {
+      removeEventListener('pointermove', trackDot);
       for (const [el, on, off] of bound) {
         el.removeEventListener('mouseenter', on);
         el.removeEventListener('mouseleave', off);

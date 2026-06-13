@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-12T17:45:35.514Z",
+  "generatedAt": "2026-06-13T03:00:34.983Z",
   "specimens": {
     "weeple": {
       "weeklyCommits": 100,
@@ -11,10 +11,10 @@
     },
     "srt-saas": {
       "weeklyCommits": 0,
-      "lastShipDays": 19
+      "lastShipDays": 20
     },
     "tokodachi": {
-      "weeklyCommits": 77,
+      "weeklyCommits": 81,
       "lastShipDays": 0
     },
     "rightbefore": {
@@ -23,14 +23,14 @@
     },
     "kage-studio": {
       "weeklyCommits": 0,
-      "lastShipDays": 4
+      "lastShipDays": 5
     },
     "beep-get": {
-      "weeklyCommits": 10,
-      "lastShipDays": 3
+      "weeklyCommits": 4,
+      "lastShipDays": 4
     },
     "orido": {
-      "weeklyCommits": 14,
+      "weeklyCommits": 11,
       "lastShipDays": 5
     },
     "receipt-anything": {
@@ -39,7 +39,7 @@
     },
     "flatsnap": {
       "weeklyCommits": 0,
-      "lastShipDays": 81
+      "lastShipDays": 82
     },
     "diffwatch": {
       "weeklyCommits": 0,
@@ -51,7 +51,7 @@
     },
     "youtube-shorts-music": {
       "weeklyCommits": 0,
-      "lastShipDays": 59
+      "lastShipDays": 60
     },
     "ai-threads": {
       "weeklyCommits": 2,
